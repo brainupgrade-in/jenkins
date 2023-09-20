@@ -7,6 +7,11 @@ pipeline {
 }
 
   stages {
+    stage('Build') {
+      steps {
+        sh 'env'
+      }
+    }
     stage('Verify') {
       steps {
         sh 'node --version'
@@ -14,3 +19,9 @@ pipeline {
     }
   }
 }
+
+jenkins - computers (node) - agent (node label)
+
+docker-workflow plugin
+
+jenkins node having label docker  (docker engine and docker cli) - java agent (jre)
