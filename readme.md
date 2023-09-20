@@ -36,6 +36,10 @@ Specify in Jenkins tools: owasp-dc and use dependency-check as installation opti
 - Deploy Jenkins controller using k8s deploy spec - example spec is above 
 - Use scalable and distributed storage for Jenkins controller
 - Use pods as build agents
+## Benefits of running Jenkins on  Kubernetes
+- Auto / self healing of Jenkins controller
+- Run builds in parallel / Load distribution / build scalability
+- Hot deployment (upgrade Jenkins controller to new version on the fly)
 
 ## Enable cookie on the ingress object - annotate ingress object
 kubectl annotate ingress app nginx.ingress.kubernetes.io/affinity="cookie" nginx.ingress.kubernetes.io/session-cookie-name="jenkins"  nginx.ingress.kubernetes.io/session-cookie-max-age="172800"
