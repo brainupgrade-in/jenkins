@@ -1,0 +1,35 @@
+//Jenkins Controller (import this https://github.com/brainupgrade-in/jenkins-shared-libs/ under Global Pipeline Library as brainupgrade-shared-libs
+// using /manage/configure)
+@Library('brainupgrade-shared-libs') _
+pipeline {
+    agent {
+    kubernetes {
+      defaultContainer 'jnlp'
+      yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven
+    image: maven:3.8.3-openjdk-17
+    command:
+    - cat
+    tty: true
+'''
+    }
+    }
+
+  stages {
+
+    stage('Build & Test') {
+      steps {
+        script {
+          container('maven') {
+             buildPlugin name: 'git'
+          }
+        }
+      }
+    }
+  }
+
+}

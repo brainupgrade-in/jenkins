@@ -1,0 +1,5 @@
+//Jenkins Controller (import this https://github.com/brainupgrade-in/jenkins-shared-libs/ under Global Pipeline Library as brainupgrade-shared-libs
+// using /manage/configure)
+@Library('brainupgrade-shared-libs') _
+
+ jenkinsForJavaOnk8s( repoUrl: 'https://github.com/brainupgrade-in/spring-framework-petclinic.git', branch: 'main' )
