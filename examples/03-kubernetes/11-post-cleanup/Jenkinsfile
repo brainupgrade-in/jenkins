@@ -1,0 +1,35 @@
+pipeline {
+    agent {
+    kubernetes {
+      defaultContainer 'jnlp'
+      yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: tools
+    image: brainupgrade/tshoot
+    command:
+    - cat
+    tty: true
+'''
+    }
+    }
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+    post{
+        always{       
+            script{
+                build job: 'cleanup-k8s-agent', wait: 'false', propogate: 'false', parameters: [
+                    string(name: 'AGENT_NAME', value: "${env.JENKINS_AGENT_NAME}")
+                ]
+            }            
+        }
+    }
+}

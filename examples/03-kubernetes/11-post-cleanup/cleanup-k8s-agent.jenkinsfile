@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+    kubernetes {
+      defaultContainer 'jnlp'
+      yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: k8stools
+    image: brainupgrade/k8stools:3.0.0
+    command:
+    - cat
+    tty: true
+'''
+    }
+    }
+
+    parameters {
+        string(name: 'AGENT_NAME', defaultValue: 'brainupgrade')
+    }
+    stages {
+        stage('Hello') {
+            steps {
+              script{
+                container('k8stools'){
+                    sh 'kubectl delete pod $AGENT_NAME'                 
+                }
+            }
+            }
+        }
+    }
+}
