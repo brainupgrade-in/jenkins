@@ -26,7 +26,7 @@ spec:
     post{
         always{       
             script{
-                build job: 'cleanup-k8s-agent', wait: 'false', propogate: 'false', parameters: [
+                build job: 'cleanup-k8s-agent', wait: 'false', parameters: [
                     string(name: 'AGENT_NAME', value: "${env.JENKINS_AGENT_NAME}")
                 ]
             }            
