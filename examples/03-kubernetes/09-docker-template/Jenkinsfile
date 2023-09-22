@@ -12,8 +12,9 @@ pipeline {
       steps {
         git url: 'https://github.com/brainupgrade-in/gitops-apps-hello', branch: 'main'
         
-        container('dind') {
+        container('docker') {
           withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh 'apk update && apk add git'
             sh 'git config --global --add safe.directory "*" '
             sh 'export GIT_COMMIT=$(git rev-parse HEAD)'
             sh "docker login -u ${USERNAME} -p ${PASSWORD}"
