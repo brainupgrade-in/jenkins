@@ -3,7 +3,9 @@ pipeline {
   stages {
     stage('Java Dev') {
       agent {
-        docker { image 'adoptopenjdk/maven-openjdk11' }
+        docker { image 'adoptopenjdk/maven-openjdk11'
+                label 'docker'
+         }
       }
       steps {
         sh 'mvn --version'
@@ -11,7 +13,9 @@ pipeline {
     }
     stage('NodeApp Dev') {
       agent {
-        docker { image 'node:20-alpine3.17' }
+        docker { image 'node:20-alpine3.17' 
+                label 'docker'
+        }
       }
       steps {
         sh 'node --version'

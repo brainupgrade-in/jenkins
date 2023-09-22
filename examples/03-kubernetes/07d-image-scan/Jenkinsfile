@@ -20,7 +20,7 @@ spec:
 
         stage('Image Scan'){
             steps{
-                git branch: 'main', url: 'https://github.com/brainupgrade-in/jenkins'
+                // git branch: 'main', url: 'https://github.com/brainupgrade-in/jenkins'
                 script{
                     container('trivy'){
                         sh "trivy image --severity HIGH,CRITICAL --format template --template '@examples/03-kubernetes/07d-image-scan/html.tpl' --output image-cve.html brainupgrade/hello:1.0"

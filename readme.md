@@ -42,7 +42,7 @@ Specify in Jenkins tools: owasp-dc and use dependency-check as installation opti
 - Hot deployment (upgrade Jenkins controller to new version on the fly)
 
 ## Enable cookie on the ingress object - annotate ingress object
-kubectl annotate ingress app nginx.ingress.kubernetes.io/affinity="cookie" nginx.ingress.kubernetes.io/session-cookie-name="jenkins"  nginx.ingress.kubernetes.io/session-cookie-max-age="172800"
+kubectl annotate ingress jenkins nginx.ingress.kubernetes.io/affinity="cookie" nginx.ingress.kubernetes.io/session-cookie-name="jenkins"  nginx.ingress.kubernetes.io/session-cookie-max-age="172800"
 
 Also add below snippet (optional) under annotations in the ingress object
 
@@ -62,3 +62,43 @@ Also add below snippet (optional) under annotations in the ingress object
 https://github.com/fabric8io/fabric8-jenkinsfile-library/
 https://github.com/cloudogu/jenkinsfiles
 https://github.com/hoto/jenkinsfile-examples/blob/master/jenkinsfiles/050-shared-library-where-is-it-cloned.groovy
+
+# Deployment strategy 
+- Hot Deployment (rollout new change on the fly) - zero downtime
+- Restart x3 (Hot Deployment) - zero downtime
+- High availability - (usnig Hot Deployment and probes)
+- Blue Green (x3 and x4 version running in parallel using two different for user testing)
+
+# Kubernetes role and rolebinding for jenkins
+
+# controller sizing
+m3.xlarge
+c3.xlarge
+kubernetes node groups
+jenkins: nodeSelector - node labels nodegroups-jenkins c3.large c3.xlarge  c3.x3large
+Auto scalability : instance types to use: .....
+jenkins: resources - computing capacity requirements: cpu intesive : 10 core cpu, 20GB RAM  General 1cpu 4 GB RAM  memory:  2 core cpu 20GB RAM
+
+# Regions
+ap-south-1  jenkins active controller 1  EFS
+# AZs
+ap-south-1a ap-south-1b ap-south1-c
+# DC
+dc1 dc2.... (1a)
+dc1 dc2... (1b)
+
+ap-southeast-1  jenkins passive controller-1 EFS
+
+# Rout 53
+jenkins.jpmorgan.com  - ap-southeast-1
+
+# Kubernetes - AWS EKS
+namespaces - TEST  UAT PROD
+
+TEST  jenkins-test.jpm.com   (jenkins-414.x2)
+UAT  jenkins-uat  jenkins-414.x1  k set image...x2
+PROD   jenkins-prod  jenkins-414.x1
+
+multi-branch pipeline example
+
+jenkins github argocd   CICDCR
