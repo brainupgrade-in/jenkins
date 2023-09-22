@@ -103,3 +103,8 @@ PROD   jenkins-prod  jenkins-414.x1
 multi-branch pipeline example
 
 jenkins github argocd   CICDCR
+
+# Pod clean up jenkins jobs
+kubectl get pod -l jenkins=kubernetes -o=json | jq -r '.items[]|select(any( .status.containerStatuses[]; .ready==true))|.metadata.name'
+kubectl get pods -l jenkins=kubernetes | xargs -I {} kubectl delete {}
+kubectl get pods -l jenkins/label=jenkins-k8s-agent | xargs -I {} kubectl delete {}
