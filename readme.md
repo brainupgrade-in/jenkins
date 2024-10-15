@@ -2,6 +2,10 @@
 kubectl apply -f https://raw.githubusercontent.com/brainupgrade-in/dockerk8s/main/kubernetes/lab/03-deployment/jenkins.yaml
 kubectl apply -f https://raw.githubusercontent.com/brainupgrade-in/dockerk8s/main/kubernetes/lab/03-deployment/jenkins-efs.yaml
 
+## Jenkins with STS
+k apply -f https://raw.githubusercontent.com/brainupgrade-in/dockerk8s/refs/heads/main/kubernetes/lab/07-statefulset/jenkins/jenkins.yaml
+
+
 # Deploy docker agent
 kubectl apply -f https://raw.githubusercontent.com/brainupgrade-in/dockerk8s/main/kubernetes/lab/03-deployment/jenkins-agent.yaml
 

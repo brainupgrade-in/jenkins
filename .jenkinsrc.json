@@ -1,0 +1,10 @@
+{
+    "Local": {
+        "applications": [
+            "exmamples/**"
+        ],
+        "buildProject": [
+        ],
+        "description": "Demo Project"
+    }
+}

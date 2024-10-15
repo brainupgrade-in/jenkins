@@ -1,7 +1,36 @@
 pipeline {
-    agent {
-      label 'docker'
+agent {
+    kubernetes {
+      defaultContainer 'dind'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: dind
+    image: brainupgrade/docker:20-dind
+    env:
+    - name: DOCKER_TLS_CERTDIR
+      value: ''
+    securityContext:
+      privileged: true
+  - name: docker
+    env:
+    - name: DOCKER_HOST
+      value: 127.0.0.1
+    image: docker
+    command:
+    - cat
+    tty: true
+    startupProbe:
+      tcpSocket:
+        port: 2375
+      periodSeconds: 10
+      successThreshold: 1
+      failureThreshold: 10
+"""
     }
+  }
     stages {
         stage('NPM Build') {
           steps {
